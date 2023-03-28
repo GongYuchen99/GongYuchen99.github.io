@@ -85,14 +85,14 @@
 <p>如果有两个中间结点，则返回第二个中间结点。</p>
 <hr>
 <h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><p>本题可以使用  <strong>快慢指针</strong> 来进行解答。在链表头设定两个指针 <code>fast</code> 和 <code>slow</code>，快指针 <code>fast</code> 每次后移 <code>2</code> 步，慢指针每次后移 <code>1</code> 步。当链表无循环时，快指针 <code>fast</code> 走到链表尾，遇到 <code>NULL</code> 结点，此时慢指针 <code>slow</code> 恰好走到链表中间位置，只需要遍历一遍链表，即可快速找出链表的中间结点。</p>
-<h4 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h4><p>1、<strong>判断链表是否有环</strong></p>
+<h4 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h4><p><strong>1、判断链表是否有环</strong></p>
 <p>假设链表有环，当指针从链表头向后移动，必定进入环中，故指针不可能遇到 <code>NULL</code> 结点，设置快慢节点 <code>fast</code> 和 <code>slow</code> ，<code>fast</code> 和 <code>slow</code> 必定在环内相遇。</p>
 <p>反之，当快指针 <code>fast</code> 遇到 <code>NULL</code> 结点时，链表必定无环。</p>
-<p>2、**<code>fast</code> 和 <code>slow</code> 相遇时，<code>slow</code> 是否绕环超过一周**</p>
+<p><strong>2、<code>fast</code> 和 <code>slow</code> 相遇时，<code>slow</code> 是否绕环超过一周</strong></p>
 <p>首先假设链表无环外部分，整个链表自成一环， <code>fast</code> 和 <code>slow</code> 从环中同一点出发， 由于 <code>fast</code> 的速度是 <code>slow</code> 的两倍，当 <code>slow</code> 绕环一周时，<code>fast</code> 刚好绕环两周，两者在出发点相遇。</p>
 <p>假设链表有环外部分，<code>slow</code> 到达入环点时，<code>fast</code> 已经在环内移动了一部分距离。当 <code>slow</code> 绕环一周时，<code>fast</code> 此时绕环超过两周，故 <code>slow</code> 必定在绕环一周之前与 <code>fast</code> 相遇。</p>
 <p>因此，无论链表是否存在环外部分，当 <code>fast</code> 与 <code>slow</code> 相遇时，<code>slow</code> 不可能绕环超过一周。</p>
-<p>3、<strong>为什么 <code>ptr</code> 和 <code>slow</code> 相遇的结点必定是入环点</strong></p>
+<p><strong>3、为什么 <code>ptr</code> 和 <code>slow</code> 相遇的结点必定是入环点</strong></p>
 <p>当 <code>fast</code> 与 <code>slow</code> 相遇时，在链表头创建新指针 <code>ptr</code>，每次后移 <code>1</code> 步，最终 <code>ptr</code> 会和 <code>slow</code> 相遇在入环点。</p>
 <p><img src="/pic/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88.png" alt="快慢指针"></p>
 <p>假设环外部分长度为 <code>a</code>，当 <code>slow</code> 进入环内并与 <code>fast</code> 相遇在紫色点时，由于 <code>slow</code> 绕环不超过一周，此时 <code>slow</code> 走过的距离为：<code>a+b</code>，<code>fast</code> 走过的距离为：<code>a+n(b+c)+b</code>。由于任意时刻 <code>fast</code> 走过的距离都是 <code>slow</code> 指针的两倍，因此可以得到等式：<code>a+n(b+c)+b = 2(a+b)</code>，化简等式可得：<code>a = c+(n-1)(b+c)</code>。其中 <code>c</code> 表示相遇点到入环点的距离，<code>(n+1)(b+c)</code> 为完整的循环。</p>
