@@ -82,16 +82,16 @@
 <p>重塑矩阵 &lt; LeetCode 556 &gt;</p>
 <span id="more"></span>
 
-<h2 id="重塑矩阵-lt-LeetCode-556-gt"><a href="#重塑矩阵-lt-LeetCode-556-gt" class="headerlink" title="重塑矩阵 &lt; LeetCode 556 &gt;"></a>重塑矩阵 &lt; LeetCode 556 &gt;</h2><p>在 MATLAB 中，有一个非常有用的函数 <code>reshape</code> ，它可以将一个 <code>m x n</code> 矩阵重塑为另一个大小不同（<code>r x c</code>）的新矩阵，但保留其原始数据</p>
+<h2 id="重塑矩阵-lt-LeetCode-556-gt"><a href="#重塑矩阵-lt-LeetCode-556-gt" class="headerlink" title="重塑矩阵 &lt; LeetCode 556 &gt;"></a>重塑矩阵 &lt; LeetCode 556 &gt;</h2><p>在 MATLAB 中，有一个非常有用的函数 <code>reshape</code> ，它可以将一个 <code>m x n</code> 矩阵重塑为另一个大小不同（<code>r x c</code>）的新矩阵，但保留其原始数据。</p>
 <p>给你一个由二维数组 <code>mat</code> 表示的 <code>m x n</code> 矩阵，以及两个正整数 <code>r</code> 和 <code>c</code> ，分别表示想要的重构的矩阵的行数和列数。</p>
 <p>重构后的矩阵需要将原始矩阵的所有元素以相同的 <strong>行遍历顺序</strong> 填充。</p>
 <p>如果具有给定参数的 <code>reshape</code> 操作是可行且合理的，则输出新的重塑矩阵；否则，输出原始矩阵。</p>
 <hr>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>本题的重点在于 <strong>一维数组和二维数组的表示转换</strong> 。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><p>本题的重点在于 <strong>一维数组和二维数组的表示转换</strong> 。</p>
 <p>定义 <code>row</code> 为元素所在的行，<code>col</code> 为元素所在的列，<code>cols</code> 为矩阵的总列数，<code>index</code> 为一维数组的元素下标。</p>
 <p>由于数组空间连续，且重构矩阵不改变元素顺序，因此同一元素在一维数组和二位数组中的下标相同，即为 <code>index</code> 。</p>
 <p>假设对于一个 <code>2 x 3</code> 的矩阵 <code>A</code> ，第二行第二位元素的下标为 <code>index = 4</code>，使用数组表示为 <code>A[4/3][4%3] = A[1][1]</code> 。由此可得出 <strong>二维数组向一维数组</strong> 映射的关系式：<code>index = row*cols+col</code>；反之可得出 <strong>一维数组向二维数组</strong> 映射的关系式：<code>row = index/cols col = index%cols</code>。</p>
-<p>在此基础上进一步推广，将一个 <code>m1 x n1</code> 的矩阵 <code>A</code> 重构为一个 <code>m2 x n2</code> 的新矩阵 <code>B</code>，可以使用一维数组作为桥梁进行过度，<code>A</code> <code>B</code> 俩矩阵中同一元素向一维数组映射的下标 <code>index</code> 相同，因此可以得出俩矩阵各元素的映射关系式：<code>B[index/n2][index%n2] = A[index/n1][index%n1]</code>。</p>
+<h4 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h4><p>在此基础上进一步推广，将一个 <code>m1 x n1</code> 的矩阵 <code>A</code> 重构为一个 <code>m2 x n2</code> 的新矩阵 <code>B</code>，可以使用一维数组作为桥梁进行过度，<code>A</code> <code>B</code> 俩矩阵中同一元素向一维数组映射的下标 <code>index</code> 相同，因此可以得出俩矩阵各元素的映射关系式：<code>B[index/n2][index%n2] = A[index/n1][index%n1]</code>。</p>
 <hr>
 <p>解题代码如下所示：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> </span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">matrixReshape</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; mat, <span class="type">int</span> r, <span class="type">int</span> c) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> row = mat.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> col = mat[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (row*col != r*c)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> mat;</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">ans</span>(r, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt; (c));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; row*col; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            ans[i/c][i%c] = mat[i/col][i%col];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -106,7 +106,7 @@
                                     
                                         
 
-<a href="/tags/c/">#c++</a>
+<a href="/tags/C/">#C++</a>
 
 
                                             
@@ -164,7 +164,7 @@
 
     <aside id="article-toc" role="navigation" class="fixed">
         <div id="article-toc-inner">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%A1%91%E7%9F%A9%E9%98%B5-lt-LeetCode-556-gt"><span class="toc-text">重塑矩阵 &lt; LeetCode 556 &gt;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text">思路</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%A1%91%E7%9F%A9%E9%98%B5-lt-LeetCode-556-gt"><span class="toc-text">重塑矩阵 &lt; LeetCode 556 &gt;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text">思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%93%E5%B1%95"><span class="toc-text">拓展</span></a></li></ol></li></ol></li></ol>
         </div>
     </aside>
 
