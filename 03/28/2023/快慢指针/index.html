@@ -83,22 +83,22 @@
 <p>使用快慢指针查找中间结点</p>
 <span id="more"></span>
 
-<h2 id="链表的中间结点-lt-LeetCode-876-gt"><a href="#链表的中间结点-lt-LeetCode-876-gt" class="headerlink" title="链表的中间结点 &lt; LeetCode 876 &gt;"></a>链表的中间结点 &lt; LeetCode 876 &gt;</h2><p>给你单链表的头结点 <code>head</code> ，请你找出并返回链表的中间结点。</p>
+<h2 id="链表的中间结点-lt-LeetCode-876-gt"><a href="#链表的中间结点-lt-LeetCode-876-gt" class="headerlink" title="链表的中间结点 &lt; LeetCode 876 &gt;"></a>链表的中间结点 &lt; LeetCode 876 &gt;</h2><p>给你单链表的头结点 <code>head</code>，请你找出并返回链表的中间结点。</p>
 <p>如果有两个中间结点，则返回第二个中间结点。</p>
 <hr>
 <h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a><strong>基础</strong></h4><p>本题可以使用 <strong>快慢指针</strong> 来进行解答。在链表头设定两个指针 <code>fast</code> 和 <code>slow</code>，快指针 <code>fast</code> 每次后移 <code>2</code> 步，慢指针每次后移 <code>1</code> 步。当链表无循环时，快指针 <code>fast</code> 走到链表尾，遇到 <code>NULL</code> 结点，此时慢指针 <code>slow</code> 恰好走到链表中间位置，只需要遍历一遍链表，即可快速找出链表的中间结点。</p>
 <h4 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a><strong>拓展</strong></h4><p><strong>1、判断链表是否有环</strong></p>
-<p>假设链表有环，当指针从链表头向后移动，必定进入环中，故指针不可能遇到 <code>NULL</code> 结点，设置快慢节点 <code>fast</code> 和 <code>slow</code> ，<code>fast</code> 和 <code>slow</code> 必定在环内相遇。</p>
+<p>假设链表有环，当指针从链表头向后移动，必定进入环中，故指针不可能遇到 <code>NULL</code> 结点，设置快慢节点 <code>fast</code> 和 <code>slow</code>，<code>fast</code> 和 <code>slow</code> <strong>必定在环内相遇</strong>。</p>
 <p>反之，当快指针 <code>fast</code> 遇到 <code>NULL</code> 结点时，链表必定无环。</p>
 <p><strong>2、<code>fast</code> 和 <code>slow</code> 相遇时，<code>slow</code> 是否绕环超过一周</strong></p>
 <p>首先假设链表无环外部分，整个链表自成一环， <code>fast</code> 和 <code>slow</code> 从环中同一点出发， 由于 <code>fast</code> 的速度是 <code>slow</code> 的两倍，当 <code>slow</code> 绕环一周时，<code>fast</code> 刚好绕环两周，两者在出发点相遇。</p>
 <p>假设链表有环外部分，<code>slow</code> 到达入环点时，<code>fast</code> 已经在环内移动了一部分距离。当 <code>slow</code> 绕环一周时，<code>fast</code> 此时绕环超过两周，故 <code>slow</code> 必定在绕环一周之前与 <code>fast</code> 相遇。</p>
-<p>因此，无论链表是否存在环外部分，当 <code>fast</code> 与 <code>slow</code> 相遇时，<code>slow</code> 不可能绕环超过一周。</p>
+<p>因此，无论链表是否存在环外部分，当 <code>fast</code> 与 <code>slow</code> 相遇时，<code>slow</code> <strong>不可能</strong> 绕环超过一周。</p>
 <p><strong>3、为什么 <code>ptr</code> 和 <code>slow</code> 相遇的结点必定是入环点</strong></p>
 <p>当 <code>fast</code> 与 <code>slow</code> 相遇时，在链表头创建新指针 <code>ptr</code>，每次后移 <code>1</code> 步，最终 <code>ptr</code> 会和 <code>slow</code> 相遇在入环点。</p>
 <p><img src="/pic/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88.png" alt="快慢指针"></p>
 <p>假设环外部分长度为 <code>a</code>，当 <code>slow</code> 进入环内并与 <code>fast</code> 相遇在紫色点时，由于 <code>slow</code> 绕环不超过一周，此时 <code>slow</code> 走过的距离为：<code>a+b</code>，<code>fast</code> 走过的距离为：<code>a+n(b+c)+b</code>。由于任意时刻 <code>fast</code> 走过的距离都是 <code>slow</code> 指针的两倍，因此可以得到等式：<code>a+n(b+c)+b = 2(a+b)</code>，化简等式可得：<code>a = c+(n-1)(b+c)</code>。其中 <code>c</code> 表示相遇点到入环点的距离，<code>(n+1)(b+c)</code> 为完整的循环。</p>
-<p>当 <code>fast</code> 与 <code>slow</code> 相遇时，在链表头创建一个指针 <code>ptr</code>，当 <code>ptr</code> 走完环外距离 <code>a</code> 的时候，就会恰好与绕圈等它的 <code>slow</code> 相遇在入环点。</p>
+<p>当 <code>fast</code> 与 <code>slow</code> 相遇时，在链表头创建一个指针 <code>ptr</code>，当 <code>ptr</code> 走完环外距离 <code>a</code> 的时候，就会 <strong>恰好</strong> 与绕圈等它的 <code>slow</code> 相遇在入环点。</p>
 <hr>
 <p>解题代码如下所示：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">middleNode</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode* fast = head;</span><br><span class="line">        ListNode* slow = head;</span><br><span class="line">        <span class="keyword">while</span> (fast != <span class="literal">NULL</span> &amp;&amp; fast-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">            fast = fast-&gt;next-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>

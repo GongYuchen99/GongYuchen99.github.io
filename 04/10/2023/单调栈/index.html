@@ -83,9 +83,9 @@
 <p>使用单调栈寻找链表的下一个更大元素</p>
 <span id="more"></span>
 
-<h2 id="链表中的下一个更大节点-lt-LeetCode-1019-gt"><a href="#链表中的下一个更大节点-lt-LeetCode-1019-gt" class="headerlink" title="链表中的下一个更大节点 &lt; LeetCode 1019 &gt;"></a><strong>链表中的下一个更大节点 &lt; LeetCode 1019 &gt;</strong></h2><p>给定一个长度为 <code>n</code> 的链表 <code>head</code></p>
+<h2 id="链表中的下一个更大节点-lt-LeetCode-1019-gt"><a href="#链表中的下一个更大节点-lt-LeetCode-1019-gt" class="headerlink" title="链表中的下一个更大节点 &lt; LeetCode 1019 &gt;"></a><strong>链表中的下一个更大节点 &lt; LeetCode 1019 &gt;</strong></h2><p>给定一个长度为 <code>n</code> 的链表 <code>head</code>。</p>
 <p>对于列表中的每个节点，查找下一个更大节点的值。也就是说，对于每个节点，找到它旁边的第一个节点的值，这个节点的值严格大于 它的值。</p>
-<p>返回一个整数数组 <code>answer</code> ，其中 <code>answer[i]</code> 是第 <code>i</code> 个节点的下一个更大的节点的值。如果第 <code>i</code> 个节点没有下一个更大的节点，设置 <code>answer[i] = 0</code>。</p>
+<p>返回一个整数数组 <code>answer</code>，其中 <code>answer[i]</code> 是第 <code>i</code> 个节点的下一个更大的节点的值。如果第 <code>i</code> 个节点没有下一个更大的节点，设置 <code>answer[i] = 0</code>。</p>
 <hr>
 <h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a><strong>基础</strong></h4><p>使用单调栈是求解 <strong>数组/链表</strong> 的下一个 <strong>更大/更小</strong> 元素的经典解法。以 <strong>右侧下一更大元素</strong> 为例，创建一个 <code>ans</code> 数组存放最终结果，从头开始遍历数组，当前遍历的元素 <strong>不大于</strong> 栈顶元素时，直接将此元素存入栈中；当前遍历的元素 <strong>大于</strong> 栈顶元素，记录相关数据在 <code>ans</code> 中并弹出栈顶元素，再与新的栈顶元素进行比较，重复此步骤直至栈内元素全部弹出或者当前遍历的元素不大于栈顶元素，退出循环并将当前遍历的元素存入栈中。</p>
 <h4 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a><strong>拓展</strong></h4><p><strong>1、单调栈中存放的数据</strong></p>
